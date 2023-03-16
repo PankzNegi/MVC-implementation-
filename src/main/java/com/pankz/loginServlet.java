@@ -1,5 +1,6 @@
 package com.pankz;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,8 +30,12 @@ public class loginServlet extends HttpServlet {
 		if(result==true)
 		{
 			User user=loginService.getUserDetails(userId);
-			request.getSession().setAttribute("user", user);
-			response.sendRedirect("success.jsp");
+			request.setAttribute("user", user);
+		//	response.sendRedirect("success.jsp");
+		//	Now,instead of passing the instruction to browser inorder to access diff URL,we need to redirect on the server side itself
+			//Browser doesn't know that redirection is actually happening to another URL or another servlet/JSP
+			RequestDispatcher dispatcher=request.getRequestDispatcher("success.jsp");
+			dispatcher.forward(request, response);
 			return;
 		}
 		else
@@ -42,3 +47,4 @@ public class loginServlet extends HttpServlet {
 	}
 
 }
+//Their is a way in which we can take the flow of control from one servlet or jsp to another servlet or jsp
