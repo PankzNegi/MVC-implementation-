@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import com.pankz.dto.User;
 import com.pankz.service.LoginService;
 
 /**
@@ -27,6 +28,8 @@ public class loginServlet extends HttpServlet {
 		//Redirection
 		if(result==true)
 		{
+			User user=loginService.getUserDetails(userId);
+			request.getSession().setAttribute("user", user);
 			response.sendRedirect("success.jsp");
 			return;
 		}
